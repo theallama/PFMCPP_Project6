@@ -36,13 +36,10 @@ struct T
 
 struct ReturnSmallerInt                                //4
 {
-    T* compare(T* a, T* b) //5
+    T* compare(T& a, T& b) //5
     {
-        if(a != nullptr && b != nullptr)
-        {
-            if( a->value < b->value ) return a;
-            if( a->value > b->value ) return b;   
-        }
+        if( a.value < b.value ) return &a;
+        if( a.value > b.value ) return &b;   
         return nullptr;
     }
 };
@@ -50,46 +47,36 @@ struct ReturnSmallerInt                                //4
 struct U
 {
     float uVar1 { 0 }, uVar2 { 0 };
-    float update(float* updatedValue)      //12
+    float update(float& updatedValue)      //12
     {
-        if(updatedValue != nullptr)
+        std::cout << "U's uVar1 value: " << uVar1 << std::endl;
+        uVar1 = updatedValue;
+        std::cout << "U's uVar1 updated value: " << uVar1 << std::endl;
+        while(std::abs(uVar2 - uVar1) > 0.001f)
         {
-            std::cout << "U's uVar1 value: " << this->uVar1 << std::endl;
-            this->uVar1 = *updatedValue;
-            std::cout << "U's uVar1 updated value: " << this->uVar1 << std::endl;
-            while(std::abs(this->uVar2 - this->uVar1) > 0.001f)
-            {
-                this->uVar2 += 0.000001f;
-            }
-            std::cout << "U's uVar2 updated value: " << this->uVar2 << std::endl;
-            return this->uVar2 * this->uVar1;
+            this->uVar2 += 0.01f;
         }
-        std::cout << "Cannot pass null values" << std::endl;
-        return 0;
+        std::cout << "U's uVar2 updated value: " << uVar2 << std::endl;
+        return uVar2 * uVar1;
     }
 };
 
 struct updateVar
 {
-    static float update(U* that, float* updatedValue)        //10
+    static float update(U& that, float& updatedValue)        //10
     {
-        if(that != nullptr && updatedValue != nullptr)
+        std::cout << "U's uVar1 value: " << that.uVar1 << std::endl;
+        that.uVar1 = updatedValue;
+        std::cout << "U's uVar1 updated value: " << that.uVar1 << std::endl;
+        while( std::abs(that.uVar2 - that.uVar1) > 0.001f )
         {
-            std::cout << "U's uVar1 value: " << that->uVar1 << std::endl;
-            that->uVar1 = *updatedValue;
-            std::cout << "U's uVar1 updated value: " << that->uVar1 << std::endl;
-            while( std::abs(that->uVar2 - that->uVar1) > 0.001f )
-            {
-                /*
-                 write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
-                 */
-                that->uVar2 += 0.01f;
-            }
-            std::cout << "U's uVar2 updated value: " << that->uVar2 << std::endl;
-            return that->uVar2 * that->uVar1; 
+            /*
+             write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
+             */
+            that.uVar2 += 0.01f;
         }
-        std::cout << "Cannot pass null values" << std::endl;
-        return 0;
+        std::cout << "U's uVar2 updated value: " << that.uVar2 << std::endl;
+        return that.uVar2 * that.uVar1; 
     }
 };
         
@@ -113,22 +100,22 @@ int main()
     T t2(9,"tInstance2");                                             //6
     
     ReturnSmallerInt f;                                            //7
-    auto* smaller = f.compare(&t1, &t2);                              //8
+    auto * smaller = f.compare(t1, t2);                              //8
     if(smaller != nullptr)
     {
         std::cout << "the smaller one is << " << smaller->name << std::endl;
     }
     else
     {
-        std::cout << "Cannot pass null values. Or the two values in comparison cannot be equal to each other in value." << std::endl;
+        std::cout << "The two values in comparison are equal to each other in value." << std::endl;
     }
     
      //9
     
     U uInstance1;
     float updatedValue = 5.f;
-    std::cout << "[static func] uInstance1's multiplied values: " << updateVar::update(&uInstance1, &updatedValue) << std::endl;                  //11
+    std::cout << "[static func] uInstance1's multiplied values: " << updateVar::update(uInstance1, updatedValue) << std::endl;                  //11
     
     U uInstance2;
-    std::cout << "[member func] uInstance2's multiplied values: " << uInstance2.update(&updatedValue) << std::endl;
+    std::cout << "[member func] uInstance2's multiplied values: " << uInstance2.update(updatedValue) << std::endl;
 }
