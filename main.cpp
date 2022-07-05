@@ -142,7 +142,7 @@ struct updateVar
 int main()
 {
     T t1(8,"tInstance1");                                             //6
-    T t2(9,"tInstance1");                                             //6
+    T t2(9,"tInstance2");                                             //6
     
     ReturnSmallerInt f;                                            //7
     auto* smaller = f.compare(&t1, &t2);                              //8
