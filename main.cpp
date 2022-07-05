@@ -67,8 +67,11 @@ struct ReturnSmallerInt                                //4
 {
     T* compare(T* a, T* b) //5
     {
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
+        if(a != nullptr && b != nullptr)
+        {
+            if( a->value < b->value ) return a;
+            if( a->value > b->value ) return b;   
+        }
         return nullptr;
     }
 };
@@ -104,24 +107,19 @@ struct updateVar
     {
         if(that != nullptr && updatedValue != nullptr)
         {
-        std::cout << "U's uVar1 value: " << that->uVar1 << std::endl;
-        that->uVar1 = *updatedValue;
-        std::cout << "U's uVar1 updated value: " << that->uVar1 << std::endl;
-        while( std::abs(that->uVar2 - that->uVar1) > 0.001f )
-        {
-            /*
-             write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
-             */
-            that->uVar2 += 0.01f;
+            std::cout << "U's uVar1 value: " << that->uVar1 << std::endl;
+            that->uVar1 = *updatedValue;
+            std::cout << "U's uVar1 updated value: " << that->uVar1 << std::endl;
+            while( std::abs(that->uVar2 - that->uVar1) > 0.001f )
+            {
+                /*
+                 write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
+                 */
+                that->uVar2 += 0.01f;
+            }
         }
         std::cout << "U's uVar2 updated value: " << that->uVar2 << std::endl;
         return that->uVar2 * that->uVar1;
-        }
-        else
-        {
-            std::cout << "Cannot pass null values" << std::endl;
-        }
-        return 0;
     }
 };
         
@@ -146,7 +144,15 @@ int main()
     
     ReturnSmallerInt f;                                            //7
     auto* smaller = f.compare(&t1, &t2);                              //8
-    std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+    if(smaller != nullptr)
+    {
+        std::cout << "the smaller one is << " << smaller->name << std::endl;
+    }
+    else
+    {
+        std::cout << "Cannot pass null values" << std::endl;
+    }
+     //9
     
     U uInstance1;
     float updatedValue = 5.f;
