@@ -93,10 +93,7 @@ struct U
             std::cout << "U's uVar2 updated value: " << this->uVar2 << std::endl;
             return this->uVar2 * this->uVar1;
         }
-        else
-        {
-            std::cout << "Cannot pass null values" << std::endl;
-        }
+        std::cout << "Cannot pass null values" << std::endl;
         return 0;
     }
 };
@@ -117,9 +114,11 @@ struct updateVar
                  */
                 that->uVar2 += 0.01f;
             }
+            std::cout << "U's uVar2 updated value: " << that->uVar2 << std::endl;
+            return that->uVar2 * that->uVar1; 
         }
-        std::cout << "U's uVar2 updated value: " << that->uVar2 << std::endl;
-        return that->uVar2 * that->uVar1;
+        std::cout << "Cannot pass null values" << std::endl;
+        return 0;
     }
 };
         
