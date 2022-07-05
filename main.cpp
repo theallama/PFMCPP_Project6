@@ -147,10 +147,7 @@ int main()
     {
         std::cout << "the smaller one is << " << smaller->name << std::endl;
     }
-    else
-    {
-        std::cout << "Cannot pass null values" << std::endl;
-    }
+    std::cout << "Cannot pass null values. Or the two values in comparison cannot be equal to each other in value." << std::endl;
      //9
     
     U uInstance1;
